@@ -1,4 +1,4 @@
-package com.squadsync.squadsync.service;
+package com.squadsync.squadsync.advice;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {

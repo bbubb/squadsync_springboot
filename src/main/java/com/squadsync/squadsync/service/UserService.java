@@ -1,5 +1,6 @@
 package com.squadsync.squadsync.service;
 
+import com.squadsync.squadsync.advice.UserNotFoundException;
 import com.squadsync.squadsync.dto.UserDto;
 import com.squadsync.squadsync.entity.UserEntity;
 import com.squadsync.squadsync.repository.UserRepository;
