@@ -23,7 +23,23 @@
 hs_err_pid*
 replay_pid*
 
-#IDE Directories to Exclude#
-/.vscode/*
-/.gradle/*
-/build/*
+# Gradle directories
+.gradle/
+ 
+# Visual Studio Code
+.vscode/
+
+# Build output
+build/
+ 
+# IntelliJ IDEA
+.idea/
+*.iml
+ 
+# Eclipse IDE
+.settings/
+.classpath
+.project
+
+# macOS-specific file
+.DS_Store
