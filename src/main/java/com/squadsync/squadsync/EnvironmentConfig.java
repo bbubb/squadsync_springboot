@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+// This class is used to load environment variables from the .env file, which should be in the root directory of your project.
 @Configuration
 @PropertySource("classpath:application.properties")
 public class EnvironmentConfig {
