@@ -2,13 +2,13 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: 
+    branches:
       - main
       - develop
       - release/*
       - hotfix/*
   pull_request:
-    branches: 
+    branches:
       - main
       - develop
       - release/*
@@ -31,6 +31,10 @@ jobs:
     - name: Set execute permissions on gradlew
       run: chmod +x ./gradlew
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: ./gradlew build

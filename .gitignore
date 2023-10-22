@@ -45,4 +45,4 @@ build/
 .DS_Store
 
 # Environment Variable file
-.env
+.env.txt
