@@ -43,3 +43,6 @@ build/
 
 # macOS-specific file
 .DS_Store
+
+# Environment Variable file
+.env

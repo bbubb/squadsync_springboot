@@ -29,12 +29,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.hibernate.validator:hibernate-validator:7.0.1.Final'
 	implementation 'javax.validation:validation-api:2.0.1.Final'
+	// MySQL Connector-Java
+	implementation 'mysql:mysql-connector-java:8.1.0'
 
 	// Springfox Swagger2 for generating Swagger documentation
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0' // Use the latest version available
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
 
 	// Swagger UI for the interactive API documentation
-	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0' // Use the latest version available
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+
+	// Dotenv for loading environment variables
+	implementation group: 'io.github.cdimascio', name: 'dotenv-java', version: '3.0.0'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
