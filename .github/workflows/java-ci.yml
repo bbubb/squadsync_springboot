@@ -32,6 +32,10 @@ jobs:
 
     - name: Set execute permissions on gradlew
       run: chmod +x ./gradlew
+      
+    - name: Update known_hosts
+      run: ssh -o StrictHostKeyChecking=no -p 2222 github-actions-java-ci@10.0.0.18 true
+
 
     - name: SSH Tunnel
       env:
