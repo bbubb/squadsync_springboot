@@ -33,22 +33,15 @@ jobs:
     - name: Set execute permissions on gradlew
       run: chmod +x ./gradlew
       
-#    - name: Update known_hosts
-#      run: ssh-keyscan -v -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_NETWORK_IP }} >> $HOME/.ssh/known_hosts
-
     - name: SSH Tunnel
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         SSH_NETWORK_IP: ${{ secrets.SSH_NETWORK_IP }}
         SSH_PORT: ${{ secrets.SSH_PORT }}
-      run: |
-#        # Set correct permissions for the private key
-#        chmod 600 "$SSH_PRIVATE_KEY"
-        
+      run: | 
         # Start SSH agent and add the private key
         eval $(ssh-agent -s)
-        
         # Using 'echo -n' to prevent adding trailing newline
         ssh-add <(echo "$SSH_PRIVATE_KEY")
 
