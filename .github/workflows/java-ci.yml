@@ -32,9 +32,6 @@ jobs:
 
     - name: Set execute permissions on gradlew
       run: chmod +x ./gradlew
-      
-#    - name: Update known_hosts
-#      run: ssh-keyscan -v -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_NETWORK_IP }} >> $HOME/.ssh/known_hosts
 
     - name: SSH Tunnel
       env:
@@ -43,8 +40,6 @@ jobs:
         SSH_NETWORK_IP: ${{ secrets.SSH_NETWORK_IP }}
         SSH_PORT: ${{ secrets.SSH_PORT }}
       run: |
-#        # Set correct permissions for the private key
-#        chmod 600 "$SSH_PRIVATE_KEY"
         
         # Start SSH agent and add the private key
         eval $(ssh-agent -s)
@@ -53,11 +48,7 @@ jobs:
         ssh-add <(echo "$SSH_PRIVATE_KEY")
 
         # Create an SSH tunnel for MySQL
-        # -v flag enables verbose output for debugging (optional)
-        # -f runs SSH in the background
-        # -N tells SSH not to execute any commands (useful for tunnels)
-        # -L sets up the port forwarding (local port 3306 to remote 3306)
-        ssh -v -f -N -L 3306:127.0.0.1:3306 $SSH_USERNAME@$SSH_NETWORK_IP -p $SSH_PORT
+        ssh -f -N -L 3306:127.0.0.1:3306 $SSH_USERNAME@$SSH_NETWORK_IP -p $SSH_PORT
 
     - name: Build with Gradle
       env:
