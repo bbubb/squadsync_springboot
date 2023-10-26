@@ -37,7 +37,7 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         chmod 700 ~/.ssh
-        echo "$(ssh-keyscan -H ${{ secrets.SSH_NETWORK_IP }})" >> ~/.ssh/known_hosts
+        echo "$(ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_NETWORK_IP }})" >> ~/.ssh/known_hosts
       
     - name: SSH Tunnel
       env:
