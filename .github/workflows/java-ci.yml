@@ -35,6 +35,8 @@ jobs:
       
     - name: Add SSH key to known hosts
       run: |
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
         echo "$(ssh-keyscan -H ${{ secrets.SSH_NETWORK_IP }})" >> ~/.ssh/known_hosts
       
     - name: SSH Tunnel
