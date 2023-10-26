@@ -43,8 +43,12 @@ jobs:
         SSH_NETWORK_IP: ${{ secrets.SSH_NETWORK_IP }}
         SSH_PORT: ${{ secrets.SSH_PORT }}
       run: |
+        # Set correct permissions for the private key
+        chmod 600 "$SSH_PRIVATE_KEY"
+        
         # Start SSH agent and add the private key
         eval $(ssh-agent -s)
+        
         # Using 'echo -n' to prevent adding trailing newline
         ssh-add <(echo -n "$SSH_PRIVATE_KEY")
 
