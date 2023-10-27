@@ -4,9 +4,15 @@ import com.squadsync.squadsync.dto.UserDto;
 import com.squadsync.squadsync.entity.UserEntity;
 import com.squadsync.squadsync.enums.CanCreateDtoExcludeEnum;
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserDtoService implements CanCreateDto<UserDto, UserEntity> {
 
+    @Autowired
+    public UserDtoService() {
+    }
     @Override
     public UserDto createDto(
             @NonNull UserEntity userEntity,

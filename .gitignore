@@ -44,5 +44,5 @@ build/
 # macOS-specific file
 .DS_Store
 
-# Environment Variable file
-.env.txt
+# Application-Local Properties for Senstive/Secure Environmental Variable file
+application-local.properties
