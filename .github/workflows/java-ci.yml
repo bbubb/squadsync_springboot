@@ -2,13 +2,13 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: 
+    branches:
       - main
       - develop
       - release/*
       - hotfix/*
   pull_request:
-    branches: 
+    branches:
       - main
       - develop
       - release/*
@@ -23,14 +23,65 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
+
     - name: Set execute permissions on gradlew
       run: chmod +x ./gradlew
+      
+    - name: Add SSH key to known hosts
+      run: |
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        echo "$(ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_NETWORK_IP }})" >> ~/.ssh/known_hosts
+      
+    - name: SSH Tunnel
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+        SSH_NETWORK_IP: ${{ secrets.SSH_NETWORK_IP }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+      run: | 
+        # Start SSH agent and add the private key
+        eval $(ssh-agent -s)
+        # Using 'echo -n' to prevent adding trailing newline
+        ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+        # Create an SSH tunnel for MySQL
+        # -v flag enables verbose output for debugging (optional)
+        # -f runs SSH in the background
+        # -N tells SSH not to execute any commands (useful for tunnels)
+        # -L sets up the port forwarding (local port 3306 to remote 3306)
+        ssh -vvv -f -N -L 3307:127.0.0.1:3306 $SSH_USERNAME@$SSH_NETWORK_IP -p $SSH_PORT
+
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        # Add error handling - exit if any command returns a non-zero status
+        set -e
+
+        # Execute Gradle build
+        ./gradlew build
+
+#    - name: Run Tests
+#      env:
+#        DB_HOST: 127.0.0.1
+#        DB_PORT: ${{ secrets.DB_PORT }}
+#        DB_NAME: ${{ secrets.DB_NAME }}
+#        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+#        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+#      run: |
+#        # Add error handling - exit if any command returns a non-zero status
+#        set -e
+#
+#        # Execute Gradle tests
+#        ./gradlew test
